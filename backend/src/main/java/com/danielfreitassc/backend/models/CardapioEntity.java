@@ -2,8 +2,10 @@ package com.danielfreitassc.backend.models;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.RepresentationModel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +23,7 @@ public class CardapioEntity extends RepresentationModel<CardapioEntity> implemen
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(length = 1000)
     private String image;
     private Integer price;
     
