@@ -1,0 +1,13 @@
+spring:
+  application:  
+        name: backend
+  datasource:
+      url: jdbc:h2:mem:api
+      password: 
+      username: sa
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
