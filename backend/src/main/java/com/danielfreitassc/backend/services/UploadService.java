@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.danielfreitassc.backend.dtos.ImageRequestDto;
@@ -55,21 +54,19 @@ public class UploadService {
     }
 
     public ImageResponseDto getById(String id) {
-        Optional<ImageEntity> image = imageRepository.findById(id);
-        if(image.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenuma imagem encontrda");
-        return imageMapper.toResponse(image.get());
+       ImageEntity image = checkId(id);
+        return imageMapper.toResponse(image);
     }
 
     public ImageResponseDto delete(String id) {
-        Optional<ImageEntity> image = imageRepository.findById(id);
-        if(image.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenuma imagem encontrda");
+        ImageEntity image = checkId(id);
 
 
         try {
             minioClient.removeObject(
                 RemoveObjectArgs.builder()
                 .bucket("images")
-                .object(image.get().getObjectId())
+                .object(image.getObjectId())
                 .build()
             );
 
@@ -77,15 +74,14 @@ public class UploadService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erro ao excluir imagem",e);
         }
 
-        imageRepository.delete(image.get());
-        return imageMapper.toResponse(image.get());
+        imageRepository.delete(image);
+        return imageMapper.toResponse(image);
     }
 
     public ImageResponseDto update(String id, ImageRequestDto imageRequestDto) throws Exception {
-        Optional<ImageEntity> image = imageRepository.findById(id);
-        if(image.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenum imagem encontrada");
+        ImageEntity image = checkId(id);
 
-        ImageEntity existinImageEntity = image.get();
+        ImageEntity existinImageEntity = image;
         ImageEntity imageEntity = imageMapper.toEntity(imageRequestDto);
 
         imageEntity.setId(id);
@@ -117,16 +113,21 @@ public class UploadService {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;
+
             while ((length = stream.read(buffer)) != -1) {
                 byteArrayOutputStream.write(buffer, 0, length);
             }
 
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
-            throw new Exception("Erro ao obter o objeto: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Imagem não encontrada");
         }
     }
 
-
+    public ImageEntity checkId(String id)  {
+        Optional<ImageEntity> image = imageRepository.findById(id);
+        if(image.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Informações da imagem encontrada");
+        return image.get();
+    }
 
 }

@@ -9,5 +9,5 @@ services:
       MINIO_ROOT_USER: ROOTUSER
       MINIO_ROOT_PASSWORD: CHANGEME123
     volumes:
-      - H:/data:/data
+      - /home/dan/Imagens/data
     command: server /data --console-address ":9001"

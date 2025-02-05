@@ -51,7 +51,7 @@ public class UploadController {
         return uploadService.delete(id);
     }
 
-    @GetMapping(value = "/{objectId}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/{objectId}/photo", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getImage(@PathVariable String objectId) throws Exception {
         return uploadService.getImage(objectId);
     }

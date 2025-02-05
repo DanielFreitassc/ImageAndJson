@@ -9,6 +9,6 @@ import io.minio.MinioClient;
 public class MinioClientConfig {
     @Bean
     MinioClient minioClient() {
-        return MinioClient.builder().endpoint("http://localhost:9000").credentials("Sqmfs6dH3ThPy8ICbkB1", "Yfr4UjgMguyoKiLCGaEb9jV9QgNujHfHPjcUuny2").build();
+        return MinioClient.builder().endpoint("http://localhost:9000").credentials("oueWCk42RZ7OB508YINk", "eQmtQrwJVSk3QxmBBg2kXX0Jm8fI4NjU99Hqr5Ul").build();
     }
 }
