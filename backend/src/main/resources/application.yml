@@ -1,13 +1,10 @@
 spring:
   application:  
-        name: backend
+    name: backend
   datasource:
-      url: jdbc:h2:mem:api
-      password: 
-      username: sa
-  sql:
-    init:
-      mode: always
-  h2:
-    console:
-      enabled: true
+    url: jdbc:postgresql://postgresql:5432/api
+    password: admin
+    username: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
