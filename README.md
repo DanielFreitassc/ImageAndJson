@@ -91,4 +91,6 @@ PUT http://localhost:8080/images
 Para deletar uma imagem, faça uma requisição `DELETE` para:
 ```
 DELETE http://localhost:8080/images/{id}
-```
+``` 
+
+
